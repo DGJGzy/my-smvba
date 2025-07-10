@@ -78,7 +78,7 @@ impl Consensus {
         let mempool_driver = MempoolDriver::new(tx_consensus_mempool);
 
         // Custom filter to arbitrary delay network messages.
-        Filter::run(rx_filter, tx_network, parameters.clone()); //对消息进行延迟
+        Filter::run(rx_filter, tx_network, parameters.clone(), committee.clone()); //对消息进行延迟
 
         // Make the synchronizer. This instance runs in a background thread
         // and asks other nodes for any block that we may be missing.

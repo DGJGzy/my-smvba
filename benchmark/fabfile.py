@@ -16,7 +16,7 @@ def local(ctx):
         'rate': 10_0000,
         'tx_size': 512,
         'faults': 0,
-        'duration': 30,
+        'duration': 10,
     }
     node_params = {
         'consensus': {
@@ -30,7 +30,9 @@ def local(ctx):
             'random_ddos': False,
             'random_chance': 0,
             'fault': 0,
-            'exp': 1 # multiplicative factor for exponential fallback
+            'exp': 1, # multiplicative factor for exponential fallback
+            'unstable_ddos': True,
+            'unstable_delay': 50,
         },
         'mempool': {
             'queue_capacity': 10_000,
@@ -106,7 +108,7 @@ def remote(ctx):
     ''' Run benchmarks on AWS '''
     bench_params = {
         'nodes': [7],
-        'rate': [140000, 160000, 320000],
+        'rate': [60000, 50000, 40000, 30000],
         'tx_size': 256,
         'faults': 0, 
         'duration': 100,
@@ -124,7 +126,9 @@ def remote(ctx):
             'random_ddos': False,
             'random_chance': 0,
             'fault': 0,
-            'exp': 5 # multiplicative factor for exponential fallback
+            'exp': 5, # multiplicative factor for exponential fallback
+            'unstable_ddos': True,
+            'unstable_delay': 500,
         },
         'mempool': {
             'queue_capacity': 100_000,
