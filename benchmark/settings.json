@@ -1,7 +1,7 @@
 {
     "key": {
-        "name": "docker-dcz",
-        "path": "/root/.ssh/id_rsa"
+        "name": "DGJG1",
+        "path": "/Users/dgjg/.ssh/aws"
     },
     "ports": {
         "consensus": 8000,
@@ -9,17 +9,18 @@
         "front": 6000
     },
     "repo": {
-        "name": "Flexible-HBBFT",
-        "url": "https://github.com/ac-dcz/Flexible-HBBFT",
+        "name": "my-smvba",
+        "url": "https://github.com/DGJGzy/my-smvba.git",
         "branch": "main"
     },
     "instances": {
         "type": "m5d.xlarge",
         "regions": [
             "us-east-1",
-            "eu-north-1",
-            "ap-northeast-1",
+            "us-west-1",
             "ap-southeast-2",
+            "eu-north-1",
+            "ap-northeast-1"
         ]
     }
 }

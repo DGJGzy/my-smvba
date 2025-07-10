@@ -75,7 +75,7 @@ class Bench:
         hosts = self.manager.hosts(flat=True)
         try:
             g = Group(*hosts, user='ubuntu', connect_kwargs=self.connect)
-            g.run(' && '.join(cmd), hide=True)
+            g.run(' && '.join(cmd), hide=False)
             Print.heading(f'Initialized testbed of {len(hosts)} nodes')
         except (GroupException, ExecutionError) as e:
             e = FabricError(e) if isinstance(e, GroupException) else e
@@ -243,7 +243,7 @@ class Bench:
         # Wait for all transactions to be processed.
         duration = bench_parameters.duration
         for _ in progress_bar(range(100), prefix=f'Running benchmark ({duration} sec):'):
-            sleep(ceil(duration / 100))
+            sleep(duration / 100)
         self.kill(hosts=hosts, delete_logs=False)
 
     def _logs(self, hosts, faults, protocol, ddos):

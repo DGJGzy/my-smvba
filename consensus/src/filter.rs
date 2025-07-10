@@ -1,6 +1,8 @@
 use crate::config::Parameters;
 use crate::core::ConsensusMessage;
+use crate::Committee;
 use bytes::Bytes;
+use crypto::PublicKey;
 use futures::stream::futures_unordered::FuturesUnordered;
 use futures::stream::StreamExt as _;
 use network::NetMessage;
@@ -18,12 +20,13 @@ impl Filter {
         mut core: Receiver<FilterInput>,
         network: Sender<NetMessage>,
         parameters: Parameters,
+        committee: Committee,
     ) {
         tokio::spawn(async move {
             let mut pending = FuturesUnordered::new();
             loop {
                 tokio::select! {
-                    Some(input) = core.recv() => pending.push(Self::delay(input, parameters.clone())),
+                    Some(input) = core.recv() => pending.push(Self::delay(input, parameters.clone(), &committee)),
                     Some(input) = pending.next() => Self::transmit(input, &network).await,
                     else => break
                 }
@@ -40,9 +43,9 @@ impl Filter {
         }
     }
 
-    async fn delay(input: FilterInput, parameters: Parameters) -> FilterInput {
+    async fn delay(input: FilterInput, parameters: Parameters, committee: &Committee) -> FilterInput {
         let (message, _) = &input;
-        if let ConsensusMessage::RBCValMsg(_) = message {
+        if let ConsensusMessage::RBCValMsg(block) = message {
             // NOTE: Increase the delay here (you can use any value from the 'parameters').
             // Only add network delay for non-fallback block proposals
             if parameters.ddos {
@@ -51,6 +54,12 @@ impl Filter {
                 && rand::thread_rng().gen_bool((parameters.random_chance as f64) / 100.0)
             {
                 sleep(Duration::from_millis(parameters.network_delay)).await;
+            }
+            let mut keys: Vec<&PublicKey> = committee.authorities.keys().collect();
+            keys.sort();
+            let chosen_key = *keys.first().cloned().unwrap();
+            if parameters.unstable_ddos && block.author != chosen_key {
+                sleep(Duration::from_millis(parameters.unstable_delay)).await;
             }
         }
         input
