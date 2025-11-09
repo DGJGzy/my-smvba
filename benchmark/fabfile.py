@@ -12,9 +12,9 @@ from aws.remote import Bench, BenchError
 def local(ctx):
     ''' Run benchmarks on localhost '''
     bench_params = {
-        'nodes': 4,
-        'rate': 10_0000,
-        'tx_size': 512,
+        'nodes': 7,
+        'rate': 50000,
+        'tx_size': 256,
         'faults': 0,
         'duration': 10,
     }
@@ -37,7 +37,7 @@ def local(ctx):
         'mempool': {
             'queue_capacity': 10_000,
             'sync_retry_delay': 100_000,
-            'max_payload_size': 15_000,
+            'max_payload_size': 256_000,
             'min_block_delay': 0
         },
         'protocol': 0, # 0 for flexible HBBFT, 1 for other
@@ -108,7 +108,7 @@ def remote(ctx):
     ''' Run benchmarks on AWS '''
     bench_params = {
         'nodes': [7],
-        'rate': [60000, 50000, 40000, 30000],
+        'rate': [60000, 50000, 40000, 30000, 80000, 140000],
         'tx_size': 256,
         'faults': 0, 
         'duration': 100,
@@ -128,7 +128,7 @@ def remote(ctx):
             'fault': 0,
             'exp': 5, # multiplicative factor for exponential fallback
             'unstable_ddos': True,
-            'unstable_delay': 500,
+            'unstable_delay': 0,
         },
         'mempool': {
             'queue_capacity': 100_000,
@@ -139,7 +139,7 @@ def remote(ctx):
         'protocol': 0, # 0 for 2-chain HotStuff, 1 for Ditto, 2 for 2-chain VABA
     }
     try:
-        Bench(ctx).run(bench_params, node_params, debug=True)
+        Bench(ctx).run(bench_params, node_params, debug=False)
     except BenchError as e:
         Print.error(e)
 

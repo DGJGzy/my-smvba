@@ -58,8 +58,13 @@ impl Filter {
             let mut keys: Vec<&PublicKey> = committee.authorities.keys().collect();
             keys.sort();
             let chosen_key = *keys.first().cloned().unwrap();
-            if parameters.unstable_ddos && block.author != chosen_key {
+            if parameters.unstable_ddos && parameters.unstable_delay > 0 && block.author != chosen_key {
                 sleep(Duration::from_millis(parameters.unstable_delay)).await;
+            }
+
+            if parameters.unstable_ddos && parameters.unstable_delay == 0 {
+                let delay_ms = 500 + rand::thread_rng().gen::<u64>() % 500;
+                sleep(Duration::from_millis(delay_ms)).await;
             }
         }
         input

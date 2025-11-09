@@ -1,7 +1,7 @@
 {
     "key": {
-        "name": "DGJG1",
-        "path": "/Users/dgjg/.ssh/aws"
+        "name": "DGJG",
+        "path": "/home/ubuntu/.ssh/aws"
     },
     "ports": {
         "consensus": 8000,
@@ -11,7 +11,7 @@
     "repo": {
         "name": "my-smvba",
         "url": "https://github.com/DGJGzy/my-smvba.git",
-        "branch": "main"
+        "branch": "ec2"
     },
     "instances": {
         "type": "m5d.xlarge",
