@@ -108,10 +108,10 @@ def remote(ctx):
     ''' Run benchmarks on AWS '''
     bench_params = {
         'nodes': [7],
-        'rate': [60000, 50000, 40000, 30000, 80000, 140000],
+        'rate': [20000, 40000, 60000, 80000, 140000],
         'tx_size': 256,
         'faults': 0, 
-        'duration': 100,
+        'duration': 150,
         'runs': 1,
     }
     node_params = {
@@ -127,8 +127,8 @@ def remote(ctx):
             'random_chance': 0,
             'fault': 0,
             'exp': 5, # multiplicative factor for exponential fallback
-            'unstable_ddos': True,
-            'unstable_delay': 0,
+            'unstable_ddos': False,
+            'unstable_delay': 500,
         },
         'mempool': {
             'queue_capacity': 100_000,
