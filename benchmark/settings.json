@@ -11,7 +11,7 @@
     "repo": {
         "name": "my-smvba",
         "url": "https://github.com/DGJGzy/my-smvba.git",
-        "branch": "ec2"
+        "branch": "ec2-1"
     },
     "instances": {
         "type": "m5d.xlarge",

@@ -35,7 +35,7 @@ pub const FINISH_PHASE: u8 = 1;
 pub const OPT: u8 = 0;
 pub const PES: u8 = 1;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum ConsensusMessage {
     RBCValMsg(Block),
     RBCEchoMsg(EchoVote),

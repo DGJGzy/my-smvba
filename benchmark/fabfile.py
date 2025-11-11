@@ -16,7 +16,7 @@ def local(ctx):
         'rate': 50000,
         'tx_size': 256,
         'faults': 0,
-        'duration': 10,
+        'duration': 150,
     }
     node_params = {
         'consensus': {
@@ -31,7 +31,7 @@ def local(ctx):
             'random_chance': 0,
             'fault': 0,
             'exp': 1, # multiplicative factor for exponential fallback
-            'unstable_ddos': True,
+            'unstable_ddos': False,
             'unstable_delay': 50,
         },
         'mempool': {
